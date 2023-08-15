@@ -178,8 +178,7 @@ public class CountryPickerView: NibView {
                    self.delegate?.countryPickerView(self, didShow: countryVc)
                    navigationVC.navigationBar.tintColor = .black
                    navigationVC.navigationBar.backgroundColor = .white
-                    navigationVC.navigationItem.title = "X"
-
+ 
                }
      //        if let viewController = viewController as? UINavigationController {
      //            delegate?.countryPickerView(self, willShow: countryVc)
