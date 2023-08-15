@@ -154,22 +154,43 @@ public class CountryPickerView: NibView {
     }
     
     public func showCountriesList(from viewController: UIViewController) {
-        let countryVc = CountryPickerViewController(style: .grouped)
-        countryVc.countryPickerView = self
-        if let viewController = viewController as? UINavigationController {
-            delegate?.countryPickerView(self, willShow: countryVc)
-            viewController.pushViewController(countryVc, animated: true) {
-                self.delegate?.countryPickerView(self, didShow: countryVc)
-            }
-        } else {
-            let navigationVC = UINavigationController(rootViewController: countryVc)
-            delegate?.countryPickerView(self, willShow: countryVc)
-            viewController.present(navigationVC, animated: true) {
-                self.delegate?.countryPickerView(self, didShow: countryVc)
-            }
-        }
-    }
-    
+          let customColor = UIColor(red: 0.929, green: 0.298, blue: 0.078, alpha: 1.0)
+             let countryVc = CountryPickerViewController(style: .grouped)
+             countryVc.countryPickerView = self
+             countryVc.searchController?.searchBar.tintColor = customColor
+                     countryVc.countryPickerView.countryDetailsLabel.tintColor =  customColor
+             
+                    countryVc.tableView.tintColor = customColor
+             if let searchController = countryVc.searchController {
+                    searchController.searchBar.tintColor = customColor
+                    if let cancelButton = searchController.searchBar.value(forKey: "cancelButton") as? UIButton {
+                        cancelButton.tintColor = customColor
+                    }
+                }
+      
+                  countryVc.tableView.tintColor = customColor
+             let navigationVC = UINavigationController(rootViewController: countryVc)
+               navigationVC.navigationBar.isHidden = true
+               navigationVC.navigationItem.hidesSearchBarWhenScrolling = true
+               
+               delegate?.countryPickerView(self, willShow: countryVc)
+               viewController.present(navigationVC, animated: true) {
+                   self.delegate?.countryPickerView(self, didShow: countryVc)
+                   navigationVC.navigationBar.tintColor = customColor
+               }
+     //        if let viewController = viewController as? UINavigationController {
+     //            delegate?.countryPickerView(self, willShow: countryVc)
+     //            viewController.pushViewController(countryVc, animated: true) {
+     //                self.delegate?.countryPickerView(self, didShow: countryVc)
+     //            }
+     //        } else {
+     //            let navigationVC = UINavigationController(rootViewController: countryVc)
+     //            delegate?.countryPickerView(self, willShow: countryVc)
+     //            viewController.present(navigationVC, animated: true) {
+     //                self.delegate?.countryPickerView(self, didShow: countryVc)
+     //            }
+     //        }
+         }
     public let countries: [Country] = {
         var countries = [Country]()
         // Cocoapods || SPM
