@@ -10,7 +10,7 @@ import UIKit
 
 public protocol CountryPickerViewDelegate: AnyObject {
     /// Called when the user selects a country from the list.
-    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country)
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: CountryInfo)
     
     /// Called before the internal CountryPickerViewController is presented or pushed.
     /// If the CountryPickerViewController is presented(not pushed), it is embedded in a UINavigationController.
@@ -27,7 +27,7 @@ public protocol CountryPickerViewDataSource: AnyObject {
     /// An array of countries you wish to show at the top of the list.
     /// This is useful if your app is targeted towards people in specific countries.
     /// - requires: The title for the section to be returned in `sectionTitleForPreferredCountries`
-    func preferredCountries(in countryPickerView: CountryPickerView) -> [Country]
+    func preferredCountries(in countryPickerView: CountryPickerView) -> [CountryInfo]
     
     /// The desired title for the preferred section.
     /// - **See:** `preferredCountries` method. Both are required for the section to be shown.
@@ -81,13 +81,13 @@ public protocol CountryPickerViewDataSource: AnyObject {
     func localeForCountryNameInList(in countryPickerView: CountryPickerView) -> Locale
     
     /// An array of countries you wish to exclude from the list of countries.
-    func excludedCountries(in countryPickerView: CountryPickerView) -> [Country]
+    func excludedCountries(in countryPickerView: CountryPickerView) -> [CountryInfo]
 }
 
 // MARK:- CountryPickerViewDataSource default implementations
 public extension CountryPickerViewDataSource {
     
-    func preferredCountries(in countryPickerView: CountryPickerView) -> [Country] {
+    func preferredCountries(in countryPickerView: CountryPickerView) -> [CountryInfo] {
         return []
     }
     
@@ -151,7 +151,7 @@ public extension CountryPickerViewDataSource {
         return Locale.current
     }
     
-    func excludedCountries(in countryPickerView: CountryPickerView) -> [Country] {
+    func excludedCountries(in countryPickerView: CountryPickerView) -> [CountryInfo] {
         return []
     }
 }

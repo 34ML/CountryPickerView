@@ -11,10 +11,10 @@ import UIKit
 public class CountryPickerViewController: UITableViewController {
 
     public var searchController: UISearchController?
-    fileprivate var searchResults = [Country]()
+    fileprivate var searchResults = [CountryInfo]()
     fileprivate var isSearchMode = false
     fileprivate var sectionsTitles = [String]()
-    fileprivate var countries = [String: [Country]]()
+    fileprivate var countries = [String: [CountryInfo]]()
     fileprivate var hasPreferredSection: Bool {
         return dataSource.preferredCountriesSectionTitle != nil &&
             dataSource.preferredCountries.count > 0
@@ -48,7 +48,7 @@ extension CountryPickerViewController {
             let countriesArray = countryPickerView.usableCountries
             let locale = dataSource.localeForCountryNameInList
             
-            var groupedData = Dictionary<String, [Country]>(grouping: countriesArray) {
+            var groupedData = Dictionary<String, [CountryInfo]>(grouping: countriesArray) {
                 let name = $0.localizedName(locale) ?? $0.name
                 return String(name.capitalized[name.startIndex])
             }
@@ -215,7 +215,7 @@ extension CountryPickerViewController: UISearchResultsUpdating {
             isSearchMode = true
             searchResults.removeAll()
             
-            var indexArray = [Country]()
+            var indexArray = [CountryInfo]()
             
             if showOnlyPreferredSection && hasPreferredSection,
                 let array = countries[dataSource.preferredCountriesSectionTitle!] {
@@ -285,7 +285,7 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
         self.view = view
     }
     
-    var preferredCountries: [Country] {
+    var preferredCountries: [CountryInfo] {
         return view.dataSource?.preferredCountries(in: view) ?? preferredCountries(in: view)
     }
     
@@ -352,7 +352,7 @@ class CountryPickerViewDataSourceInternal: CountryPickerViewDataSource {
         return view.dataSource?.localeForCountryNameInList(in: view) ?? localeForCountryNameInList(in: view)
     }
     
-    var excludedCountries: [Country] {
+    var excludedCountries: [CountryInfo] {
         return view.dataSource?.excludedCountries(in: view) ?? excludedCountries(in: view)
     }
 }

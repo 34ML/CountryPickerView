@@ -8,13 +8,13 @@
 
 import UIKit
 
-public typealias CPVCountry = Country
+public typealias CPVCountry = CountryInfo
 
 public enum SearchBarPosition {
     case tableViewHeader, navigationBar, hidden
 }
 
-public struct Country: Equatable {
+public struct CountryInfo: Equatable {
     public let name: String
     public let code: String
     public let phoneCode: String
@@ -28,10 +28,10 @@ public struct Country: Equatable {
     }
 }
 
-public func ==(lhs: Country, rhs: Country) -> Bool {
+public func ==(lhs: CountryInfo, rhs: CountryInfo) -> Bool {
     return lhs.code == rhs.code
 }
-public func !=(lhs: Country, rhs: Country) -> Bool {
+public func !=(lhs: CountryInfo, rhs: CountryInfo) -> Bool {
     return lhs.code != rhs.code
 }
 
@@ -97,8 +97,8 @@ public class CountryPickerView: NibView {
     weak public var delegate: CountryPickerViewDelegate?
     weak public var hostViewController: UIViewController?
     
-    fileprivate var _selectedCountry: Country?
-    internal(set) public var selectedCountry: Country {
+    fileprivate var _selectedCountry: CountryInfo?
+    internal(set) public var selectedCountry: CountryInfo {
         get {
             return _selectedCountry
                 ?? usableCountries.first(where: { $0.code == Locale.current.regionCode })
@@ -193,8 +193,8 @@ public class CountryPickerView: NibView {
      //            }
      //        }
          }
-    public let countries: [Country] = {
-        var countries = [Country]()
+    public let countries: [CountryInfo] = {
+        var countries = [CountryInfo]()
         // Cocoapods || SPM
         let path = Bundle._module.path(forResource: "Data/CountryCodes", ofType: "json") ??
             Bundle._module.path(forResource: "CountryCodes", ofType: "json")
@@ -211,14 +211,14 @@ public class CountryPickerView: NibView {
                       let phoneCode = countryObj["dial_code"] as? String else {
                     continue
                 }
-                let country = Country(name: name, code: code, phoneCode: phoneCode)
+                let country = CountryInfo(name: name, code: code, phoneCode: phoneCode)
                 countries.append(country)
             }
         }
         return countries
     }()
     
-    internal var usableCountries: [Country] {
+    internal var usableCountries: [CountryInfo] {
         let excluded = dataSource?.excludedCountries(in: self) ?? []
         return countries.filter { return !excluded.contains($0) }
     }
@@ -244,15 +244,15 @@ extension CountryPickerView {
         }
     }
     
-    public func getCountryByName(_ name: String) -> Country? {
+    public func getCountryByName(_ name: String) -> CountryInfo? {
         return countries.first(where: { $0.name == name })
     }
     
-    public func getCountryByPhoneCode(_ phoneCode: String) -> Country? {
+    public func getCountryByPhoneCode(_ phoneCode: String) -> CountryInfo? {
         return countries.first(where: { $0.phoneCode == phoneCode })
     }
     
-    public func getCountryByCode(_ code: String) -> Country? {
+    public func getCountryByCode(_ code: String) -> CountryInfo? {
         return countries.first(where: { $0.code == code })
     }
 }
